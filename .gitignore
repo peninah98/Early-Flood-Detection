@@ -1,3 +1,4 @@
 node_modules
 soft-ui-dashboard-tailwind.css
 package-lock.json
+.env

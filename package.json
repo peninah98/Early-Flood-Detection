@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "nodemon app.js",
-    "node": "node app.js",
+    "start": "node app.js",
     "tailwind:watch": "tailwindcss -i public/stylesheet/styles.css -o public/assets/css/soft-ui-dashboard-tailwind.css --watch",
     "tailwind:build": "tailwindcss -i public/stylesheet/styles.css -o public/assets/css/soft-ui-dashboard-tailwind.css"
   },

@@ -1,0 +1,9 @@
+[build]
+command = "npm install && npm run tailwindcss:build"
+publish = "public/"
+
+[build.environment]
+NODE_VERSION = "18.16.0"
+
+[dev]
+command = "npm run start"

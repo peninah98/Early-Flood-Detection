@@ -20,6 +20,7 @@ const helmet = require("helmet");
 
 // ROUTES
 const userAuthRoutes = require("./routes/user-auth");
+const userRoutes = require("./routes/user");
 
 // APP CONFIGURATIONS
 const store = new mongo_store({
@@ -47,7 +48,11 @@ app.use(
 );
 app.use(csrf());
 app.use(compression());
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 app.use((req, res, next) => {
   let errorMessage = req.flash("error");
@@ -76,7 +81,7 @@ app.use((req, res, next) => {
   req.successMessage = successMessage;
   req.returnObj = returnObj;
 
-  next()
+  next();
 });
 
 // app.use((req, res, next) => {
@@ -86,17 +91,18 @@ app.use((req, res, next) => {
 // })
 
 app.use((req, res, next) => {
-    res.locals.csrfToken = req.csrfToken();
+  res.locals.csrfToken = req.csrfToken();
 
-    res.locals.errorMessage = req.errorMessage;
-    res.locals.successMessage = req.successMessage;
-    res.locals.returnObj = req.returnObj;
+  res.locals.errorMessage = req.errorMessage;
+  res.locals.successMessage = req.successMessage;
+  res.locals.returnObj = req.returnObj;
 
-    next()
-})
+  next();
+});
 
 // ROUTES
 app.use("/auth", userAuthRoutes);
+app.use(userRoutes);
 
 // DATABASE CONNECTION
 mongoose.set("strictQuery", true);

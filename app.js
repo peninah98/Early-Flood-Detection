@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+const User = require("./models/user");
+
 const app = express();
 const MONGO_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT;
@@ -84,11 +86,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use((req, res, next) => {
-//     if(!req.session.user) {
-//         return next()
-//     }
-// })
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+  User.findOne({ _id: req.session.user._id })
+    .then((user) => {
+      if (!user) {
+        req.session.user = null;
+        req.session.isUserLoggedIn = false;
+        return next();
+      }
+
+      req.user = user;
+      next();
+    })
+    .catch((err) => next(new Error(err)));
+});
 
 app.use((req, res, next) => {
   res.locals.csrfToken = req.csrfToken();

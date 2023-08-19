@@ -1,5 +1,5 @@
 [build]
-command = "npm install && npm run tailwindcss:build"
+command = "npm install && npm run tailwind:build"
 publish = "public/"
 
 [build.environment]
